@@ -7,7 +7,7 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 import "react-toastify/dist/ReactToastify.css";
 import Header from "./components/Header";
 import Wrapper from "./components/Wrapper";
-import NowWhat from "./components/NowWhat";
+import Selector from "./components/Selector";
 
 const store = createStore();
 const theme = createMuiTheme({
@@ -21,11 +21,16 @@ const theme = createMuiTheme({
     secondary: {
       main: "rgb(197,208,222)"
     },
+    selected: {
+      main: "rgb(28,150,169)"
+    },
     background: {
       main: "rgb(226,231,238)"
     }
   }
 });
+
+store.dispatch({type: "COMMAND/FETCH_DRONE_DATA"})
 
 const App = props => (
   <MuiThemeProvider theme={theme}>
@@ -33,7 +38,7 @@ const App = props => (
     <Provider store={store}>
       <Wrapper>
         <Header />
-        <NowWhat />
+        <Selector />
         <ToastContainer />
       </Wrapper>
     </Provider>
