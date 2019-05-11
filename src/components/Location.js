@@ -1,5 +1,4 @@
 import React from "react";
-import { connect } from "react-redux";
 import { withStyles } from "@material-ui/core/styles";
 import ReactMapboxGl, { Layer, Feature } from "react-mapbox-gl";
 
@@ -27,26 +26,18 @@ const styles = theme => ({
 });
 
 class Location extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      viewport: null
-    }
-  }
-
   render() {
     let droneLength;
-    if(this.props.drone.drone) {
-      droneLength = this.props.drone.drone.length - 1;
+    if(this.props.droneData) {
+      droneLength = this.props.droneData.length - 1;
     }
     return (
       <div className={this.props.classes.container}>
-        {this.props.drone.drone
+        {this.props.droneData
           ?
           <Map // eslint-disable-next-line
             style="mapbox://styles/mapbox/streets-v9"
-            center={[this.props.drone.drone[droneLength].longitude, this.props.drone.drone[droneLength].latitude]}
+            center={[this.props.droneData[droneLength].longitude, this.props.droneData[droneLength].latitude]}
             zoom={[7]}
             containerStyle={{
               height: "50vh",
@@ -57,7 +48,7 @@ class Location extends React.Component {
               type="symbol"
               id="marker"
               layout={{ "icon-image": "airport-15" }}>
-              <Feature coordinates={[this.props.drone.drone[droneLength].longitude, this.props.drone.drone[droneLength].latitude]}/>
+              <Feature coordinates={[this.props.droneData[droneLength].longitude, this.props.droneData[droneLength].latitude]}/>
             </Layer>
           </Map>
         :
@@ -68,10 +59,4 @@ class Location extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => {
-  return {
-    drone: state.drone
-  };
-}
-
-export default connect(mapStateToProps)(withStyles(styles)(Location));
+export default withStyles(styles)(Location);

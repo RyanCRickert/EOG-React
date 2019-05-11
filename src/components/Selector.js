@@ -1,4 +1,5 @@
 import React from "react";
+import { connect } from "react-redux";
 import { withStyles } from "@material-ui/core/styles";
 import { Dashboard as DashIcon, Map as LocationCity, ShowChart } from "@material-ui/icons"
 import { Card, Paper, Typography } from "@material-ui/core";
@@ -87,12 +88,18 @@ class Selector extends React.Component {
           <ShowChart onClick={this.handleChartClick} className={this.state.selected === "chart" ? this.props.classes.selected : this.props.classes.icon} />
           <LocationCity onClick={this.handleLocationClick} className={this.state.selected === "location" ? this.props.classes.selected : this.props.classes.icon} />
         </Card>
-        {this.state.selected === "dashboard" && <Dashboard />}
-        {this.state.selected === "chart" && <Chart />}
-        {this.state.selected === "location" && <Location />}
+        {this.state.selected === "dashboard" && <Dashboard droneData={this.props.drone.drone} />}
+        {this.state.selected === "chart" && <Chart droneData={this.props.drone.drone} />}
+        {this.state.selected === "location" && <Location droneData={this.props.drone.drone} />}
       </React.Fragment>
     )
   }
 }
 
-export default withStyles(styles)(Selector);
+const mapStateToProps = (state) => {
+  return {
+    drone: state.drone
+  };
+}
+
+export default connect(mapStateToProps)(withStyles(styles)(Selector));

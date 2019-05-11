@@ -1,5 +1,4 @@
 import React from "react";
-import { connect } from "react-redux";
 import { withStyles } from "@material-ui/core/styles";
 import { CartesianGrid, LineChart, Line, Tooltip, XAxis, YAxis } from "recharts";
 //import { Card, Grid, Typography } from "@material-ui/core";
@@ -17,19 +16,11 @@ const styles = theme => ({
 });
 
 class Chart extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      data: null
-    }
-  }
-
   render() {
     let altData = [];
-    if(this.props.drone.drone) {
+    if(this.props.droneData) {
       altData = [];
-      const droneData = this.props.drone.drone;
+      const droneData = this.props.droneData;
       droneData.forEach(data => {
         altData.push({
           metric: data.metric,
@@ -39,7 +30,7 @@ class Chart extends React.Component {
     }
     return (
       <div className={this.props.classes.container}>
-        {this.props.drone.drone
+        {this.props.droneData
         ?
         <LineChart width={1200} height={600} data={altData} >
           <Line dot={false} dataKey="metric" />
@@ -56,10 +47,4 @@ class Chart extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => {
-  return {
-    drone: state.drone
-  };
-}
-
-export default connect(mapStateToProps)(withStyles(styles)(Chart));
+export default withStyles(styles)(Chart);

@@ -1,5 +1,4 @@
 import React from "react";
-import { connect } from "react-redux";
 import { withStyles } from "@material-ui/core/styles";
 import { Card, Grid, Typography } from "@material-ui/core";
 
@@ -22,13 +21,13 @@ const styles = theme => ({
 class Dashboard extends React.Component {
   render() {
     let calcTime, droneLength;
-    if(this.props.drone.drone) {
-      droneLength = this.props.drone.drone.length - 1;
-      calcTime = new Date(this.props.drone.drone[0].timestamp - new Date().getTime()).getSeconds();
+    if(this.props.droneData) {
+      droneLength = this.props.droneData.length - 1;
+      calcTime = new Date(this.props.droneData[0].timestamp - new Date().getTime()).getSeconds();
     }
     return (
       <div className={this.props.classes.container}>
-        {this.props.drone.drone
+        {this.props.droneData
           ?
           <Card>
             <Grid
@@ -41,19 +40,19 @@ class Dashboard extends React.Component {
                 <Typography className={this.props.classes.item}>Temperature:</Typography>
               </Grid>
               <Grid xs={8} item >
-                <Typography className={this.props.classes.item}>{this.props.drone.drone[droneLength].metric}</Typography>
+                <Typography className={this.props.classes.item}>{this.props.droneData[droneLength].metric}</Typography>
               </Grid>
               <Grid xs={4} item >
                 <Typography className={this.props.classes.item}>Latitude:</Typography>
               </Grid>
               <Grid xs={8} item >
-                <Typography className={this.props.classes.item}>{this.props.drone.drone[droneLength].latitude}</Typography>
+                <Typography className={this.props.classes.item}>{this.props.droneData[droneLength].latitude}</Typography>
               </Grid>
               <Grid xs={4} item >
                 <Typography className={this.props.classes.item}>Longitude:</Typography>
               </Grid>
               <Grid xs={8} item >
-                <Typography className={this.props.classes.item}> {this.props.drone.drone[droneLength].longitude}</Typography>
+                <Typography className={this.props.classes.item}> {this.props.droneData[droneLength].longitude}</Typography>
               </Grid>
               <Grid xs={4} item >
                 <Typography className={this.props.classes.item}>Last Received:</Typography>
@@ -71,10 +70,4 @@ class Dashboard extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => {
-  return {
-    drone: state.drone
-  };
-}
-
-export default connect(mapStateToProps)(withStyles(styles)(Dashboard));
+export default withStyles(styles)(Dashboard);
